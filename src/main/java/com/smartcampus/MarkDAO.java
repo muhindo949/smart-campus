@@ -23,7 +23,7 @@ public class MarkDAO {
             stmt.setDouble(8, mark.getExam());
             stmt.setDouble(9, mark.getTotal());
             stmt.setString(10, mark.getGrade());
-            return stmt.executeUpdate() == 0;
+            return stmt.executeUpdate() > 0;
                 } catch (SQLException e){
         e.printStackTrace();
             return false;

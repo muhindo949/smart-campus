@@ -105,7 +105,7 @@
 
     <h3>Course Registration</h3>
 
-    <form action="registerCourse" method="POST">
+    <form id="courseForm">
 
         <label>Your Registered Student ID:</label>
 
@@ -176,6 +176,36 @@
         window.location.href = "login.html";
     }
 
+</script>
+
+
+<script>
+    const courseForm = document.getElementById("courseForm");
+
+    courseForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(courseForm);
+
+        try {
+            const response = await fetch("registerCourse", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            });
+
+            const result = await response.text();
+
+            alert(result);
+
+            if (response.ok) {
+                courseForm.reset();
+            }
+
+        } catch (error) {
+            alert("Unable to connect to the server.");
+            console.error(error);
+        }
+    });
 </script>
 
 </body>

@@ -98,7 +98,7 @@
 
     <h3>Register New Student</h3>
 
-    <form action="adminManageStudent" method="POST">
+    <form id="studentForm">
 
         <label>Student Number:</label>
         <input type="text" name="studentNo" required>
@@ -133,7 +133,6 @@
     function logout() {
         window.location.href = "login.html";
     }
-<script>
     const role = sessionStorage.getItem("role");
 
     if (role !== "Administrator") {
@@ -144,7 +143,33 @@
         sessionStorage.clear();
         window.location.href = "login.html";
     }
-</script>
+    
+    const studentForm = document.getElementById("studentForm");
+
+    studentForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(studentForm);
+
+        try {
+            const response = await fetch("adminManageStudent", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            });
+
+            const result = await response.text();
+
+            alert(result);
+
+            if (response.ok) {
+                studentForm.reset();
+            }
+
+        } catch (error) {
+            alert("Unable to connect to the server.");
+            console.error(error);
+        }
+    });
 </script>
 
 </body>

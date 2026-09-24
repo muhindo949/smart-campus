@@ -105,7 +105,7 @@
 
     <h3>Record Lecture Attendance</h3>
 
-    <form action="recordAttendance" method="POST">
+    <form id="attendanceForm">
 
         <label>Student ID:</label>
         <input type="number" name="studentId" required>
@@ -138,7 +138,7 @@
 
     <h3>Enter Academic Examination Grades</h3>
 
-    <form action="processAndSaveExamMarks" method="POST">
+    <form id="examMarksForm">
 
         <label>Student ID:</label>
         <input type="number" name="studentId" required>
@@ -190,6 +190,66 @@
         sessionStorage.clear();
         window.location.href = "login.html";
     }
+</script>
+
+
+<script>
+    const attendanceForm = document.getElementById("attendanceForm");
+
+    attendanceForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(attendanceForm);
+
+        try {
+            const response = await fetch("recordAttendance", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            });
+
+            const result = await response.text();
+
+            alert(result);
+
+            if (response.ok) {
+                attendanceForm.reset();
+            }
+
+        } catch (error) {
+            alert("Unable to connect to the server.");
+            console.error(error);
+        }
+    });
+</script>
+
+
+<script>
+    const examMarksForm = document.getElementById("examMarksForm");
+
+    examMarksForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(examMarksForm);
+
+        try {
+            const response = await fetch("processAndSaveExamMarks", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            });
+
+            const result = await response.text();
+
+            alert(result);
+
+            if (response.ok) {
+                examMarksForm.reset();
+            }
+
+        } catch (error) {
+            alert("Unable to connect to the server.");
+            console.error(error);
+        }
+    });
 </script>
 
 </body>
