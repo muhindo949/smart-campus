@@ -70,6 +70,21 @@
 </head>
 
 <body>
+<!-- SMART CAMPUS SESSION GUARD -->
+<script>
+    const currentRole = sessionStorage.getItem("role");
+
+    if (currentRole !== "Student") {
+        window.location.replace("login.html");
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        window.location.replace("login.html");
+    }
+</script>
+<!-- END SMART CAMPUS SESSION GUARD -->
+
 
 <div class="container">
 
