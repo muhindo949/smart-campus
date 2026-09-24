@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Campus Portal</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 40px;
+    }
+
+    .home {
+        text-align: center;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .head {
+        text-align: center;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 25px auto;
+        max-width: 80%;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    h2, h3 {
+        color: #333;
+        margin-top: 0;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .role_btn {
+        margin: 5px;
+    }
+</style>
+
+</head>
+
+<body>
+
+<section class="home">
+
+<div class="head">
+    <h1>Smart Campus Portal</h1>
+
+    <p id="welcomeMessage">
+        Welcome to Smart Campus.
+    </p>
+
+</div>
+
+
+<!-- ================= ADMIN ================= -->
+
+<div id="adminpanel" class="card hidden">
+
+    <h2>Administrator Control Panel</h2>
+
+    <p>
+        <i>Role capability: Manage infrastructure records.</i>
+    </p>
+
+    <form action="adminManageStudent" method="POST">
+
+        <label>Student Number:</label>
+        <input type="text" name="studentNo" required>
+
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Academic Programme:</label>
+        <input type="text" name="programme" required>
+
+        <label>Phone Contact:</label>
+        <input type="text" name="phone" required>
+
+        <button type="submit">
+            Register New Student Record
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- ================= LECTURER ================= -->
+
+<div id="lecturerpanel" class="card hidden">
+
+    <h2>Lecturer Dashboard</h2>
+
+    <form action="recordAttendance" method="POST">
+
+        <h3>Record Lecture Attendance</h3>
+
+        <label>Student ID:</label>
+        <input type="number" name="studentId" required>
+
+        <label>Course ID:</label>
+        <input type="number" name="courseId" required>
+
+        <label>Date:</label>
+        <input type="date" name="date" required>
+
+        <label>Attendance Status:</label>
+
+        <select name="status">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+
+        <button type="submit">
+            Submit Attendance
+        </button>
+
+    </form>
+
+
+    <!-- Examination Marks -->
+
+    <form action="processAndSaveExamMarks" method="POST">
+
+        <h3>Enter Academic Examination Grades</h3>
+
+        <label>Student ID:</label>
+        <input type="number" name="studentId" required>
+
+        <label>Course ID:</label>
+        <input type="number" name="courseId" required>
+
+        <label>Coursework Score:</label>
+        <input type="number"
+               step="0.01"
+               name="coursework"
+               required>
+
+        <label>Examination Score:</label>
+        <input type="number"
+               step="0.01"
+               name="exam"
+               required>
+
+        <button type="submit">
+            Calculate & Save Marks
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- ================= STUDENT ================= -->
+
+<div id="studentpanel" class="card hidden">
+
+    <h2>Student Academic Portal</h2>
+
+    <p>
+        <i>
+            Role capability: Course self registration & transcript tracking.
+        </i>
+    </p>
+
+    <form action="registerCourse" method="POST">
+
+        <label>Your Registered Student ID:</label>
+        <input type="number" name="studentId" required>
+
+        <label>Target Course Elective ID:</label>
+        <input type="number" name="courseId" required>
+
+        <label>Semester Term:</label>
+
+        <select name="semester">
+
+            <option value="Semester 1 2026">
+                Semester 1 2026
+            </option>
+
+            <option value="Semester 2 2026">
+                Semester 2 2026
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Confirm Course Registration
+        </button>
+
+    </form>
+
+</div>
+
+</section>
+
+<script>
+
+        function hideAllDashboards() {
+
+            document.getElementById('adminpanel')
+                .classList.add('hidden');
+
+            document.getElementById('lecturerpanel')
+                .classList.add('hidden');
+
+            document.getElementById('studentpanel')
+                .classList.add('hidden');
+
+            document.querySelectorAll('.role_btn')
+                .forEach(button => {
+                    button.style.display = 'none';
+                });
+        }
+
+
+        function showDashboardByRole(role) {
+
+        hideAllDashboards();
+
+        role = role.toLowerCase();
+
+        if (role === 'admin' ||
+            role === 'administrator') {
+
+            document.getElementById('adminpanel')
+                .classList.remove('hidden');
+
+        }
+
+        else if (role === 'lecturer') {
+
+            document.getElementById('lecturerpanel')
+                .classList.remove('hidden');
+
+        }
+
+        else if (role === 'student') {
+
+            document.getElementById('studentpanel')
+                .classList.remove('hidden');
+
+        }
+
+        else {
+
+            document.querySelector('.head').innerHTML =
+                '<h2>Access Denied</h2>' +
+                '<p>Your account does not have a dashboard assigned.</p>';
+
+        }
+    }
+
+
+    function switchDashboard(role) {
+
+        showDashboardByRole(role);
+
+    }
+
+
+    // Read role sent by LoginServlet
+
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const role = params.get('role');
+
+
+    // If logged in, automatically show the correct dashboard
+
+    if (role) {
+
+        showDashboardByRole(role);
+
+    }
+
+
+</script>
+
+</body>
+</html>

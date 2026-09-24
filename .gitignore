@@ -1,0 +1,18 @@
+# Maven
+target/
+
+# Java compiled files
+*.class
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Local database files
+*.db
+
+# Logs
+*.log
