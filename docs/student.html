@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Smart Campus - Student</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 40px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .head {
+        text-align: center;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 25px;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 9px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .logout {
+        background-color: #dc3545;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<div class="head">
+    <h1>Smart Campus Portal</h1>
+    <h2>Student Academic Portal</h2>
+
+    <p>
+        Course registration and academic information.
+    </p>
+</div>
+
+
+<!-- Course Registration -->
+
+<div class="card">
+
+    <h3>Course Registration</h3>
+
+    <form action="registerCourse" method="POST">
+
+        <label>Your Registered Student ID:</label>
+
+        <input
+            type="number"
+            name="studentId"
+            required
+        >
+
+        <label>Target Course Elective ID:</label>
+
+        <input
+            type="number"
+            name="courseId"
+            required
+        >
+
+        <label>Semester Term:</label>
+
+        <select name="semester">
+
+            <option value="Semester 1 2026">
+                Semester 1 2026
+            </option>
+
+            <option value="Semester 2 2026">
+                Semester 2 2026
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Confirm Course Registration
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- Logout -->
+
+<div style="text-align:center;">
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</div>
+```
+
+</div>
+
+<script>
+
+    function logout() {
+        window.location.href = "login.html";
+    }
+
+</script>
+
+</body>
+</html>
+

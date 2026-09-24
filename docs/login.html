@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Smart Campus - Login</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+
+        box-shadow:
+            0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin: 12px 0 5px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        padding: 11px;
+
+        margin-top: 20px;
+
+        background-color: #007bff;
+        color: white;
+
+        border: none;
+        border-radius: 4px;
+
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    button:disabled {
+        background-color: #999;
+        cursor: not-allowed;
+    }
+
+    #message {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        display: none;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+```
+<div class="card">
+
+    <h1>Smart Campus</h1>
+
+    <p class="subtitle">
+        Secure Campus Portal
+    </p>
+
+    <form id="loginForm">
+
+        <label for="username">
+            Username
+        </label>
+
+        <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            required
+        >
+
+        <button
+            type="submit"
+            id="loginButton"
+        >
+            Login
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+const loginForm = document.getElementById("loginForm");
+const loginButton = document.getElementById("loginButton");
+const message = document.getElementById("message");
+
+
+loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    // Clear previous message
+    message.style.display = "none";
+    message.className = "";
+
+
+    // Prevent multiple submissions
+    loginButton.disabled = true;
+    loginButton.textContent = "Logging in...";
+
+
+    try {
+
+        const response = await fetch(
+            "api/login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: new URLSearchParams({
+                    username: username,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (data.success) {
+
+            message.textContent =
+                "Login successful. Redirecting...";
+
+            message.className = "success";
+            message.style.display = "block";
+
+
+            // Store basic session information
+            sessionStorage.setItem(
+                "username",
+                data.username
+            );
+
+            sessionStorage.setItem(
+                "role",
+                data.role
+            );
+
+            sessionStorage.setItem(
+                "userId",
+                data.userId
+            );
+
+
+            // Redirect according to role
+            switch (data.role) {
+
+                case "Administrator":
+
+                    window.location.href =
+                        "admin.html";
+
+                    break;
+
+
+                case "Lecturer":
+
+                    window.location.href =
+                        "lecturer.html";
+
+                    break;
+
+
+                case "Student":
+
+                    window.location.href =
+                        "student.html";
+
+                    break;
+
+
+                default:
+
+                    showError(
+                        "Your account has no assigned dashboard."
+                    );
+
+                    break;
+            }
+
+        } else {
+
+            showError(
+                data.message ||
+                "Invalid username or password."
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+        showError(
+            "Unable to connect to the server."
+        );
+
+    } finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+    }
+
+});
+
+
+function showError(text) {
+
+    message.textContent = text;
+
+    message.className = "error";
+
+    message.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
