@@ -106,7 +106,7 @@
 </div>
 
 <div style="text-align:center;">
-    <button class="logout" onclick="logout()">
+    <button type = "button" class="logout" onclick="logout()">
         Logout
     </button>
 </div>
@@ -118,6 +118,18 @@
     function logout() {
         window.location.href = "login.html";
     }
+<script>
+    const role = sessionStorage.getItem("role");
+
+    if (role !== "Administrator") {
+        window.location.href = "login.html";
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "login.html";
+    }
+</script>
 </script>
 
 </body>

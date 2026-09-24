@@ -135,9 +135,7 @@
 
 <div style="text-align:center;">
 
-    <button
-        class="logout"
-        onclick="logout()"
+    <button class="logout" type="button" onclick="logout()"
     >
         Logout
     </button>
@@ -150,6 +148,16 @@
 <script>
 
     function logout() {
+        window.location.href = "login.html";
+    }
+    const role = sessionStorage.getItem("role");
+
+    if (role !== "Student") {
+        window.location.href = "login.html";
+    }
+
+    function logout() {
+        sessionStorage.clear();
         window.location.href = "login.html";
     }
 
